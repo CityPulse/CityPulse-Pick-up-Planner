@@ -4,15 +4,15 @@ The goal of the Pickup planner system is to provide a pickup service that can be
 
 The implementation of the Pickup planner service partially builds on components from the Citypulse framework, i.e. Decision Support and Geospatial Data Infrastructure (GDI). It includes a scheduling and dynamic route optimization algorithm. The system currently uses OpenStreetMap data for Stockholm, but can easily incorporate data for other cities through the GDI.
 
-Dependencies
+# Dependencies
 
-Database e.g. PostgreSQL/psycopg2
-Clustering library e.g. Scikit-Learn
-Networkx
-ASP solver (Clingo4)
+Database e.g. PostgreSQL/psycopg2  
+Clustering library e.g. Scikit-Learn  
+Networkx  
+ASP solver (Clingo4)  
 Flask
 
 # Installation
-Client and vehicle app: installed on Android devices.   
+Client and vehicle app: installed on Android devices.     
 Request Handler: REST server  
 Trip Generator and Traffic Handler: run on a backend server as a cron job.
