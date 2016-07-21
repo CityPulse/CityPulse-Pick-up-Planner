@@ -12,8 +12,7 @@ Networkx
 ASP solver (Clingo4)
 Flask
 
-Installation
-
-Client and vehicle app: installed on Android devices.
-Request Handler: REST server
-Trip Generator and Traffic Handler: run on a backend server by a cron job.
+# Installation
+Client and vehicle app: installed on Android devices.   
+Request Handler: REST server  
+Trip Generator and Traffic Handler: run on a backend server as a cron job.
