@@ -1,6 +1,13 @@
 package com.nicholasgot.clientapp.utils;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.nicholasgot.clientapp.MainActivity;
+import com.nicholasgot.clientapp.TravelActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +25,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Connect to the database through local server
+ * Connect to the database through Webservice server
  */
 public class DatabaseConnection {
 
@@ -31,10 +38,17 @@ public class DatabaseConnection {
     public final String SOURCE = "source";
     public final String DESTINATION = "destination";
 
+    public Context mContext;
+
+    public DatabaseConnection(Context context) {
+        this.mContext = context;
+    }
+
     /**
-     * POSTs to the webservice endpoint
-     * @param source source lat/lon pair
-     * @param destination destination lat/lon pair
+     * Send request to the webservice endpoint
+     *
+     * @param source lat/lon pair, not null
+     * @param destination lat/lon pair, not null
      */
     public void postLocation(String source, String destination) {
         final String CLIENT = "clientapp";
@@ -71,15 +85,33 @@ public class DatabaseConnection {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Log.e(LOG_TAG, "There was a problem.");
                 e.printStackTrace();
+
+                // Post to UI thread
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mContext, "Failed to connect to the DB", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
                 else {
-                    String rowsInserted = response.body().string();
-                    Log.v(LOG_TAG, "Rows inserted: " + rowsInserted);
+//                    String rowsInserted = response.body().string();
+//                    Log.v(LOG_TAG, "Rows inserted: " + rowsInserted);
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, "Request sent! You will receive a notification when your " +
+                                    "vehicle is ready", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }
         });
