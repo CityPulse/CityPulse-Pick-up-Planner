@@ -92,9 +92,10 @@ public class TravelActivity extends AppCompatActivity {
                 public void onClick(View view) {
 //                    Snackbar.make(view, "Request sent; Your bus comes in x minutes", Snackbar.LENGTH_LONG)
 //                            .setAction("Action", null).show();
-                    sendRequestToDatabase();
-                    Snackbar.make(view, "Request sent! You will receive a notification when your " +
-                            "vehicle is ready", Snackbar.LENGTH_LONG).show();
+                    if (sendRequestToDatabase()) {
+                        Snackbar.make(view, "Request sent! You will receive a notification when your " +
+                                "vehicle is ready", Snackbar.LENGTH_LONG).show();
+                    }
                 }
             });
         }
@@ -237,24 +238,25 @@ public class TravelActivity extends AppCompatActivity {
     /**
      * Write travel request to database
      */
-    public void sendRequestToDatabase() {
+    public boolean sendRequestToDatabase() {
         if (locations != null) {
             // Use current time in the absence of date selection
             if (mTimePicked == TimeSelected.NOT_SELECTED) {
                 String currentDate = DateFormat.getDateTimeInstance().format(new Date());
                 mDateTextView.setText(currentDate);
             }
-            postRequestToDatabase();
+            return postRequestToDatabase();
         }
         else {
             Log.e(LOG_TAG, "Null location from Geocoding API.");
+            return false;
         }
     }
 
     /**
      * Send to the database
      */
-    protected void postRequestToDatabase() {
+    protected boolean postRequestToDatabase() {
         DatabaseConnection db = new DatabaseConnection(this);
         LatLng dst = locations.get(destLocation);
         LatLng src = TravelActivityFragment.destinationPoint;
@@ -263,17 +265,18 @@ public class TravelActivity extends AppCompatActivity {
             Toast.makeText(this,
                     "You are not connected to the Internet. Please connect and try again.",
                     Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
 
         // Empty pickup location
         if (src == null) {
             Toast.makeText(this, "Please enter a pickup location", Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
 
         String source = "(" + src.latitude + "," + src.longitude + ")";
         String destination = "(" + dst.latitude + "," + dst.longitude + ")";
         db.postLocation(source, destination);
+        return true;
     }
 }
