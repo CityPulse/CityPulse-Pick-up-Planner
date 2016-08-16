@@ -90,8 +90,11 @@ public class TravelActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "Request sent; Your bus comes in x minutes", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+//                    Snackbar.make(view, "Request sent; Your bus comes in x minutes", Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+                    sendRequestToDatabase();
+                    Snackbar.make(view, "Request sent! You will receive a notification when your " +
+                            "vehicle is ready", Snackbar.LENGTH_LONG).show();
                 }
             });
         }
@@ -234,7 +237,7 @@ public class TravelActivity extends AppCompatActivity {
     /**
      * Write travel request to database
      */
-    public void sendRequestToDatabase(View view) {
+    public void sendRequestToDatabase() {
         if (locations != null) {
             // Use current time in the absence of date selection
             if (mTimePicked == TimeSelected.NOT_SELECTED) {

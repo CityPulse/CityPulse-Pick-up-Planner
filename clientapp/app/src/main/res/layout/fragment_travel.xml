@@ -146,11 +146,11 @@
         android:fontFamily="sans-serif-condensed"
         android:onClick="showTimePickerDialog" />
 
-    <Button
-        android:id="@+id/submit_travel_request"
-        android:text="@string/submit_travel_request"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="sendRequestToDatabase"/>
+    <!--<Button-->
+        <!--android:id="@+id/submit_travel_request"-->
+        <!--android:text="@string/submit_travel_request"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="sendRequestToDatabase"/>-->
 </LinearLayout>

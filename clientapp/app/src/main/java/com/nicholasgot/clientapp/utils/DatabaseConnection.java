@@ -105,11 +105,13 @@ public class DatabaseConnection {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(mContext, "Request sent! You will receive a notification when your " +
-                                    "vehicle is ready", Toast.LENGTH_LONG).show();
+                            // Notification to user transferred to floating action button
+//                            Toast.makeText(mContext, "Request sent! You will receive a notification when your " +
+//                                    "vehicle is ready", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
+                response.body().close();
             }
         });
     }
