@@ -36,10 +36,10 @@ class DBConnection():
         self.conn.close()
 
 def get_requests_fromDB(dest_id):
-    ''' Queries the database for travel requests, adds source/destination depot.
-    @param dest_id Destination node ID, integer
+    ''' Query the database for travel requests, adds source/destination depot.
 
-    @return location in lat/lon format
+     dest_id -- destination node ID, integer
+     return -- location in lat/lon format
     '''
     db = DBConnection()
     db.fetch_rows(dest_id)
@@ -69,7 +69,8 @@ def get_requests_fromDB(dest_id):
     return source_loc, dst_loc
 
 def request_distance(str_origins, str_destinations):
-    ''' Gets the distance between the origin and destination in metres. Queries Google Maps Distance Matrix API. To be replace with inhouse GDI.
+    ''' Get the distance between the origin and destination in metres. Queries Google Maps Distance Matrix API. 
+        To be replace with inhouse GDI.
     '''
     res = requests.get('https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + str_origins
                        +'&destinations=' + str_destinations +
@@ -147,26 +148,30 @@ def build_graph(node_list):
 
 def insert_edges(node1, node2, weight, cursor):
     ''' Persist edges into database
-    @param node1 node
-    @param node2 node
-    @weight distance between node1 and node2
+
+    node1 --  node in the graph
+    node2 -- node in the graph
+    weight -- distance between node1 and node2
+    cursor - db cursor
     '''
     cursor.execute("INSERT INTO edges (node1, node2, weight) VALUES (%s, %s, %s)", (node1, node2, weight))
 
 # TODO: factor insert_nodes to be done asynchronously outside ASP, once users register requests (build client UI and connect to DB)
 
 def insert_nodes(node, lat, lon, cursor):
-    ''' Insert node into database
-    @param node: node
-    @param lat: latitude
-    @param lon: longitude
+    ''' Insert this node into the database
+
+    node -- node in the graph
+    lat -- latitude
+    lon -- longitude
     '''
     cursor.execute("INSERT INTO nodes (node_id, latitude, longitude) VALUES (%s, %s, %s)", (node, lat, lon))
 
 def edge_cost(src_loc, dst_loc):
-    '''
-    Calculate the cost of an edge on the graph
-    Using Google Maps Matrix API for now, to change later
+    ''' Calculate the cost of an edge on the graph using Google Maps Matrix API for now, to change later
+
+    src_loc -- source location latitude and longitude
+    dst_loc -- destination location latitude and longitude
     '''
     source = str(src_loc[0]) + ',' + str(src_loc[1])
     destination = str(dst_loc[0])  + ',' + str(dst_loc[1])
@@ -193,7 +198,7 @@ def destinations():
 def nodes(dest_id):
     ''' Construct graph, group or cluster request and return resulting nodes
 
-        dest_id -- integer uniquely identifier for each destination
+    dest_id -- integer uniquely identifier for each destination
     '''
     src, dst = get_requests_fromDB(dest_id) 
     G = build_graph(src) # TODO: Graph built one-time
@@ -206,14 +211,7 @@ def nodes(dest_id):
     cluster_id = 7
     cluster = [c for c in all_clusters[cluster_id].keys()]
 
-    '''
-    temp = {}
-    temp[cluster_id] = cluster
-    f2 = open('cluster_7.txt', 'w')
-    f2.write(str(temp))
-    f2.close()
-    '''
-    print "cluster " + str(cluster_id)  + " Size = " + str(len(cluster))
+    # print "cluster " + str(cluster_id)  + " Size = " + str(len(cluster))
 
     cluster_nodes = [node_id for node_id in cluster]
     SOURCE_DEPOT_ID = 1
@@ -224,9 +222,9 @@ def nodes(dest_id):
     return cluster_nodes
 
 def neighbors(node):
-    '''
-    Return the neighbors to a node
-    @param node integer uniquely identifying a node
+    ''' Return the neighbors to a node
+
+    node -- integer uniquely identifying a node
     '''
     conn = pg.connect(database="ngot", host="127.0.0.1", port="5432")
     cur = conn.cursor()
