@@ -179,7 +179,7 @@ public class TravelPlannerActivity extends ListFragment implements
                 R.layout.list_item_text_view, mPickupPoints);
         setListAdapter(itemsAdapter);
 
-        Button loadButton = (Button) travelPlannerView.findViewById(R.id.pickup_locations_list);
+        Button loadButton = (Button) travelPlannerView.findViewById(R.id.pickup_locations_button);
         loadButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,8 +197,13 @@ public class TravelPlannerActivity extends ListFragment implements
                 mListView.setItemChecked(0, true);
 
                 // TODO: handle exception case gracefully
-                // TODO: Transition from selected route back to the main activity (TONIGHT)
-                final String INVALID_DESTINATION = "Undefined";
+                if (!ApplicationExecutionConditions.isInternetSignal(getActivity())) {
+                    Toast.makeText(getActivity(),
+                            "You are not connected to the Internet. Please connect and try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                final String INVALID_DESTINATION = "Uknown location";
                 if (mPickupPoints.isEmpty()) {
                     mNextPickupPoint.setText(INVALID_DESTINATION);
                 }
