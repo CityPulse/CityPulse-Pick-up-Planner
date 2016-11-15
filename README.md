@@ -22,6 +22,7 @@ Request Handler: Flask server that accepts connections from the Client and Vehic
 Trip Generator and Traffic Handler: run periodically (e.g. through a cron job)
 
 # Running
+The instructions for the various components.
 
 ## Clustering travel requests
 
@@ -29,19 +30,12 @@ python clustering.py
 
 ## Trip generation
 
-clingo ham.lp graph.lp trip_generator.py --opt-mode=optN --quiet=1_
+clingo ham.lp graph.lp trip_generator.py --opt-mode=optN --quiet=1
 
 ## Client and Vehicle apps
 
-To run these Android apps, install the APK and optionally change the configurations for the server and port number in the Configs.java class (located in
++ To run these Android apps, install the APK. 
++ Optionally change the configurations for the server and port number in the Configs.java class (located in
 com.nicholasgot.citypulse/androidapp/common). Typically, this is the only change that is necessary when the components
 are installed on a different machine, assuming the other dependencies are already installed on the machine.
-Also change the Google API keys in the app build.gradle. (link to steps on how to do this).
-
-TODO:
-1. Push client and vehicle app latest, remove Google API keys
-2. Verify latest repo and push backend code plus README
-3. Charge tablet and check if everything is working end-to-end
-
-TOMORNIG:
-4. Send email (about Daniel changing location of something)
++ Change the Google API keys in the app's build.gradle.

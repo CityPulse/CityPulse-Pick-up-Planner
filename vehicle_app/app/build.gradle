@@ -18,7 +18,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'GOOGLE_AUTOCOMPLETE__API_KEY', "\"AIzaSyBZnohTsdOvK3WEuS3C549ml43v48bG5YI\""
+        it.buildConfigField 'String', 'GOOGLE_AUTOCOMPLETE__API_KEY', "api_key"
     }
 
     packagingOptions {
