@@ -19,6 +19,7 @@ Client and vehicle app: to install, upload the APK on an Android device running 
 ## Backend
 
 Request Handler: Flask server that accepts connections from the Client and Vehicle apps
+
 Trip Generator and Traffic Handler: run periodically (e.g. through a cron job)
 
 # Running
@@ -26,11 +27,15 @@ The instructions for the various components.
 
 ## Clustering travel requests
 
+```
 python clustering.py
+```
 
 ## Trip generation
 
+```
 clingo ham.lp graph.lp trip_generator.py --opt-mode=optN --quiet=1
+```
 
 ## Client and Vehicle apps
 
