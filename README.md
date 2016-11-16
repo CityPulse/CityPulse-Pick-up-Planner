@@ -5,12 +5,12 @@ The implementation of the Pickup planner service partially builds on components 
 
 # Dependencies
 
-Database e.g. PostgreSQL/psycopg2  
-Clustering library e.g. Scipy or Scikit-Learn  
-Networkx  
-ASP solver (Clingo4)   
-virtualenv  
-Flask  
++ Database e.g. PostgreSQL/psycopg2  
++ Clustering library e.g. Scipy or Scikit-Learn  
++ Networkx  
++ ASP solver (Clingo4)   
++ virtualenv  
++ Flask  
 
 # Installation
 
